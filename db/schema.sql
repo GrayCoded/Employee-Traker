@@ -1,24 +1,24 @@
-DROP DATABASE IF EXISTS management_db;
-CREATE DATABASE management_db;
-USE management_db;
+DROP DATABASE IF EXISTS business_db;
+CREATE DATABASE business_db;
+USE business_db;
 
-DROP TABLE IF EXISTS Employees
-DROP TABLE IF EXISTS Departments;
-DROP TABLE IF EXISTS Roles;
-DROP TABLE IF EXISTS Budgets;
+drop table if exists Employees;
+drop table if exists Departments;
+drop table if exists Roles;
+drop table if exists Budgets;
 
 CREATE TABLE Departments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   Department VARCHAR(50) NOT NULL
 );
-
 
 CREATE TABLE Roles (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   Title VARCHAR(30) NOT NULL,
   Salary DECIMAL(10, 2) NOT NULL,
-  Department_id INT NOT NULL,
-  FOREIGN KEY (Department_id) REFERENCES Departments(id) ON DELETE SET NULL
+  Department_id INT,
+  FOREIGN KEY (Department_id) 
+  REFERENCES Departments(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Employees (
@@ -27,14 +27,14 @@ CREATE TABLE Employees (
   Last_Name VARCHAR(30) NOT NULL,
   Role_id INT,
   Manager_id INT,
-  FOREIGN KEY (Role_id) REFERENCES Roles(id) ON DELETE SET NULL,
+  FOREIGN KEY (Role_id) REFERENCES Roles(id),
   FOREIGN KEY (Manager_id) REFERENCES Employees(id)
 );
 
 
 CREATE TABLE Budgets (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  Department_id INT NOT NULL,
+  Department_id INT ,
   Amount DECIMAL(12, 2) NOT NULL,
-  FOREIGN KEY (Department_id) REFERENCES Departments(id) ON DELETE CASCADE
+  FOREIGN KEY (Department_id) REFERENCES Departments(id)
 );

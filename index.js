@@ -4,9 +4,6 @@ const {
     updatedRole, addedDepartment, addedRole, displayBudget
 } = require('./db/queries');
 
-
-
-
 menu()
 async function menu() {
     console.log(`
@@ -112,19 +109,18 @@ async function viewBudget() {
 }
 
 async function quit() {
-    await inquirer
-        .prompt(
-            {
-                type: 'list',
-                message: 'Are you sure you want to quit?',
-                choices: ['Yes', 'No'],
-                name: 'quit'
-            }
-        )
-        .then(async data => {
-            await data.quit === 'Yes' ? process.exit() : menu()
-        })
-        .catch(err => {
-            console.error("error:", err)
-        })
+    const { quit } = await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Are you sure you want to quit?',
+            choices: ['Yes', 'No'],
+            name: 'quit'
+        }
+    ]);
+
+    if (quit === 'Yes') {
+        process.exit();
+    } else {
+        menu();
+    }
 }
